@@ -10,7 +10,7 @@ class HomeController extends Controller
     public function index()
     {
         // Summary
-        $response = Http::get('http://localhost:8001/api/jenis_kelamin');
+        $response = Http::get('http://survei.kataback.com/api/jenis_kelamin');
         $data = $response->json();
 
         $male = 0;
@@ -38,7 +38,7 @@ class HomeController extends Controller
 
     public function jk()
     {
-        $response = Http::get('http://localhost:8001/api/jenis_kelamin');
+        $response = Http::get('http://survei.kataback.com/api/jenis_kelamin');
         $data = $response->json();
 
         return view('jk', compact('data'));
@@ -46,7 +46,7 @@ class HomeController extends Controller
     
     public function pekerjaan()
     {
-        $response = Http::get('http://localhost:8001/api/pekerjaan');
+        $response = Http::get('http://survei.kataback.com/api/pekerjaan');
         $data = $response->json();
 
         return view('pekerjaan', compact('data'));
@@ -54,7 +54,7 @@ class HomeController extends Controller
     
     public function pendidikan()
     {
-        $response = Http::get('http://localhost:8001/api/pendidikan_terakhir');
+        $response = Http::get('http://survei.kataback.com/api/pendidikan_terakhir');
         $data = $response->json();
 
         return view('pendidikan', compact('data'));
@@ -62,7 +62,7 @@ class HomeController extends Controller
     
     public function tahun()
     {
-        $response = Http::get('http://localhost:8001/api/tahun_lahir');
+        $response = Http::get('http://survei.kataback.com/api/tahun_lahir');
         $data = $response->json();
 
         return view('tahun', compact('data'));
@@ -70,7 +70,7 @@ class HomeController extends Controller
 
     public function wilayah()
     {
-        $response = Http::get('http://localhost:8001/api/wilayah');
+        $response = Http::get('http://survei.kataback.com/api/wilayah');
         $data = $response->json();
 
         return view('wilayah', compact('data'));

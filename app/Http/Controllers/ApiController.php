@@ -9,7 +9,7 @@ class ApiController extends Controller
 {
     public function jk($index)
     {
-        $response = Http::get('http://localhost:8001/api/jenis_kelamin');
+        $response = Http::get('http://survei.kataback.com/api/jenis_kelamin');
         $data = $response->json();
         
         $pekerjaan = $data['total'][$index]['jenis_kelamin'];
@@ -26,7 +26,7 @@ class ApiController extends Controller
 
     static function jks()
     {
-        $response = Http::get('http://localhost:8001/api/jenis_kelamin');
+        $response = Http::get('http://survei.kataback.com/api/jenis_kelamin');
         $data = $response->json();
         
         foreach ($data['total'] as $key => $value) {
@@ -45,7 +45,7 @@ class ApiController extends Controller
     
     public function pekerjaan($index)
     {
-        $response = Http::get('http://localhost:8001/api/pekerjaan');
+        $response = Http::get('http://survei.kataback.com/api/pekerjaan');
         $data = $response->json();
         
         $pekerjaan = $data['total'][$index]['pekerjaan'];
@@ -62,7 +62,7 @@ class ApiController extends Controller
     
     static function pekerjaans()
     {
-        $response = Http::get('http://localhost:8001/api/pekerjaan');
+        $response = Http::get('http://survei.kataback.com/api/pekerjaan');
         $data = $response->json();
         
         foreach ($data['total'] as $key => $value) {
@@ -81,7 +81,7 @@ class ApiController extends Controller
     
     public function pendidikan($index)
     {
-        $response = Http::get('http://localhost:8001/api/pendidikan_terakhir');
+        $response = Http::get('http://survei.kataback.com/api/pendidikan_terakhir');
         $data = $response->json();
         
         $pendidikan = $data['total'][$index]['pendidikan_terakhir'];
@@ -98,7 +98,7 @@ class ApiController extends Controller
     
     static function pendidikans()
     {
-        $response = Http::get('http://localhost:8001/api/pendidikan_terakhir');
+        $response = Http::get('http://survei.kataback.com/api/pendidikan_terakhir');
         $data = $response->json();
         
         foreach ($data['total'] as $key => $value) {
@@ -117,7 +117,7 @@ class ApiController extends Controller
     
     public function tahun($index)
     {
-        $response = Http::get('http://localhost:8001/api/tahun_lahir');
+        $response = Http::get('http://survei.kataback.com/api/tahun_lahir');
         $data = $response->json();
         
         $tahun = $data['total'][$index]['tahun_lahir'];
@@ -134,7 +134,7 @@ class ApiController extends Controller
     
     static function tahuns()
     {
-        $response = Http::get('http://localhost:8001/api/tahun_lahir');
+        $response = Http::get('http://survei.kataback.com/api/tahun_lahir');
         $data = $response->json();
         
         foreach ($data['total'] as $key => $value) {
@@ -154,7 +154,7 @@ class ApiController extends Controller
     static function wilayah(Request $request)
     {
         if (isset($request->kabkota)) {
-            $response = Http::get('http://localhost:8001/api/wilayah?provinsi='.$request->provinsi.'&kabkota='.$request->kabkota);
+            $response = Http::get('http://survei.kataback.com/api/wilayah?provinsi='.$request->provinsi.'&kabkota='.$request->kabkota);
             $data = $response->json();
             
             foreach ($data['data'] as $key => $value) {
@@ -175,7 +175,7 @@ class ApiController extends Controller
             return $respond;
 
         } else if (isset($request->provinsi)) {
-            $response = Http::get('http://localhost:8001/api/wilayah?provinsi='.$request->provinsi);
+            $response = Http::get('http://survei.kataback.com/api/wilayah?provinsi='.$request->provinsi);
             $data = $response->json();
             
             foreach ($data['data'] as $key => $value) {
@@ -196,7 +196,7 @@ class ApiController extends Controller
             return $respond;
 
         } else {
-            $response = Http::get('http://localhost:8001/api/wilayah');
+            $response = Http::get('http://survei.kataback.com/api/wilayah');
             return $data = $response->json();
             
             foreach ($data['data'] as $key => $value) {
