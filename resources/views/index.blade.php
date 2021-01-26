@@ -53,8 +53,27 @@
             </div>
         </div>
     </div>
-
     
+    {{-- Keseluruhan Data --}}
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">Data Keseluruhan</h4>
+        </div>
+        <div class="card-content">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <canvas id="nilai-chart-summary" height="250"></canvas>
+                    </div>
+                    <div class="col-sm-6">
+                        <canvas id="aplikasi-chart-summary" height="250"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {{-- Perbandingan --}}
     <div class="card">
         <div class="card-header">
             <h4 class="card-title">Perbandingan</h4>
@@ -167,6 +186,279 @@
         var excellent = '#27AE60';
 
         var themeColors = [poor, fair, good, verygood, excellent, primary];
+
+        async function summary() {
+            const response1 = await fetch('http://localhost:8000/api/jenis-kelamin/0')
+            const response2 = await fetch('http://localhost:8000/api/jenis-kelamin/1')
+            const data1 = await response1.json()
+            const data2 = await response2.json()
+
+            var labels = ['Sangat Rendah', 'Rendah', 'Sedang', 'Tinggi', 'Sangat Tinggi']
+            var jumlah = []
+            var aplikasi = []
+
+            var label1 = data1.label
+            var label2 = data2.label
+            var jumlah1 = []
+            var jumlah2 = []
+            var aplikasi1 = []
+            var aplikasi2 = []
+
+            // Dataset 1
+            // ------------------------------------------
+
+            // Sangat Rendah
+            if (data1.nilai.hasOwnProperty('Sangat Rendah')) {
+                jumlah1.push(data1.nilai['Sangat Rendah'])
+                aplikasi1.push(data1.aplikasi['Sangat Rendah'])
+            } else {
+                jumlah1.push(0)
+                aplikasi1.push(0)
+            }
+
+            // Rendah
+            if (data1.nilai.hasOwnProperty('Rendah')) {
+                jumlah1.push(data1.nilai['Rendah'])
+                aplikasi1.push(data1.aplikasi['Rendah'])
+            } else {
+                jumlah1.push(0)
+                aplikasi1.push(0)
+            }
+
+            // Sedang
+            if (data1.nilai.hasOwnProperty('Sedang')) {
+                jumlah1.push(data1.nilai['Sedang'])
+                aplikasi1.push(data1.aplikasi['Sedang'])
+            } else {
+                jumlah1.push(0)
+                aplikasi1.push(0)
+            }
+
+            // Tinggi
+            if (data1.nilai.hasOwnProperty('Tinggi')) {
+                jumlah1.push(data1.nilai['Tinggi'])
+                aplikasi1.push(data1.aplikasi['Tinggi'])
+            } else {
+                jumlah1.push(0)
+                aplikasi1.push(0)
+            }
+
+            // Sangat Tinggi
+            if (data1.nilai.hasOwnProperty('Sangat Tinggi')) {
+                jumlah1.push(data1.nilai['Sangat Tinggi'])
+                aplikasi1.push(data1.aplikasi['Sangat Tinggi'])
+            } else {
+                jumlah1.push(0)
+                aplikasi1.push(0)
+            }
+
+            // Dataset 2
+            // ------------------------------------------
+
+            // Sangat Rendah
+            if (data2.nilai.hasOwnProperty('Sangat Rendah')) {
+                jumlah2.push(data2.nilai['Sangat Rendah'])
+                aplikasi2.push(data2.aplikasi['Sangat Rendah'])
+            } else {
+                jumlah2.push(0)
+                aplikasi2.push(0)
+            }
+
+            // Rendah
+            if (data2.nilai.hasOwnProperty('Rendah')) {
+                jumlah2.push(data2.nilai['Rendah'])
+                aplikasi2.push(data2.aplikasi['Rendah'])
+            } else {
+                jumlah2.push(0)
+                aplikasi2.push(0)
+            }
+
+            // Sedang
+            if (data2.nilai.hasOwnProperty('Sedang')) {
+                jumlah2.push(data2.nilai['Sedang'])
+                aplikasi2.push(data2.aplikasi['Sedang'])
+            } else {
+                jumlah2.push(0)
+                aplikasi2.push(0)
+            }
+
+            // Tinggi
+            if (data2.nilai.hasOwnProperty('Tinggi')) {
+                jumlah2.push(data2.nilai['Tinggi'])
+                aplikasi2.push(data2.aplikasi['Tinggi'])
+            } else {
+                jumlah2.push(0)
+                aplikasi2.push(0)
+            }
+
+            // Sangat Tinggi
+            if (data2.nilai.hasOwnProperty('Sangat Tinggi')) {
+                jumlah2.push(data2.nilai['Sangat Tinggi'])
+                aplikasi2.push(data2.aplikasi['Sangat Tinggi'])
+            } else {
+                jumlah2.push(0)
+                aplikasi2.push(0)
+            }
+
+            // Dataset 1 + Dataset 2
+            for (let index = 0; index < 5; index++) {
+                a = parseInt(jumlah1[index]) + parseInt(jumlah2[index])
+                b = (parseInt(aplikasi1[index]) + parseInt(aplikasi2[index])) / 2
+                jumlah.push(a)
+                aplikasi.push(b)
+            }
+
+            // Bar Chart
+            // ------------------------------------------
+
+            //Get the context of the Chart canvas element we want to select
+            var barChartctx = $("#nilai-chart-summary");
+
+            // Chart Options
+            var barchartOptions = {
+                // Elements options apply to all of the options unless overridden in a dataset
+                // In this case, we are setting the border of each bar to be 2px wide
+                elements: {
+                    rectangle: {
+                    borderWidth: 2,
+                    borderSkipped: 'left'
+                    }
+                },
+                responsive: true,
+                maintainAspectRatio: false,
+                responsiveAnimationDuration: 500,
+                legend: { display: false },
+                scales: {
+                    xAxes: [{
+                    display: true,
+                    gridLines: {
+                        color: grid_line_color,
+                    },
+                    scaleLabel: {
+                        display: true,
+                    }
+                    }],
+                    yAxes: [{
+                    display: true,
+                    gridLines: {
+                        color: grid_line_color,
+                    },
+                    scaleLabel: {
+                        display: true,
+                    },
+                    ticks: {
+                        stepSize: 1000
+                    },
+                    }],
+                },
+                title: {
+                    display: true,
+                    text: 'Pengetahuan'
+                }
+
+            };
+
+            // Chart Data
+            var barchartData = {
+            labels: labels,
+            datasets: [{
+                label: "Responden",
+                data: jumlah,
+                backgroundColor: themeColors,
+                borderColor: "transparent"
+            }]
+            };
+
+            var barChartconfig = {
+            type: 'bar',
+
+            // Chart Options
+            options: barchartOptions,
+
+            data: barchartData
+            };
+
+            // Create the chart
+            var barChart = new Chart(barChartctx, barChartconfig);
+
+            // Nilai Aplikasi Chart
+            // ------------------------------------------
+
+            //Get the context of the Chart canvas element we want to select
+            var barChartctx2 = $("#aplikasi-chart-summary");
+
+            // Chart Options
+            var barchartOptions2 = {
+                // Elements options apply to all of the options unless overridden in a dataset
+                // In this case, we are setting the border of each bar to be 2px wide
+                elements: {
+                    rectangle: {
+                    borderWidth: 2,
+                    borderSkipped: 'left'
+                    }
+                },
+                responsive: true,
+                maintainAspectRatio: false,
+                responsiveAnimationDuration: 500,
+                legend: { display: false },
+                scales: {
+                    xAxes: [{
+                    display: true,
+                    gridLines: {
+                        color: grid_line_color,
+                    },
+                    scaleLabel: {
+                        display: true,
+                    }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        gridLines: {
+                            color: grid_line_color,
+                        },
+                        scaleLabel: {
+                            display: true,
+                        },
+                        ticks: {
+                            stepSize: 1000,
+                            max: 50
+                        },
+                    }],
+                },
+                title: {
+                    display: true,
+                    text: 'Nilai Aplikasi'
+                },
+                scaleOverride : true,
+                scaleSteps : 10,
+                scaleStepWidth : 50,
+                scaleStartValue : 0 
+
+            };
+
+            // Chart Data
+            var barchartData2 = {
+            labels: labels,
+            datasets: [{
+                label: "Nilai rata-rata responden",
+                data: aplikasi,
+                backgroundColor: themeColors,
+                borderColor: "transparent"
+            }]
+            };
+
+            var barChartconfig2 = {
+            type: 'bar',
+
+            // Chart Options
+            options: barchartOptions2,
+
+            data: barchartData2
+            };
+
+            // Create the chart
+            var barChart2 = new Chart(barChartctx2, barChartconfig2);
+        }
 
         async function chart() {
             let id1 = "";
@@ -433,6 +725,7 @@
             var lineChart2 = new Chart(lineChartctx2, lineChartconfig2);
         }
 
+        summary()
         chart()
 
         $('#data-1').change(function() {
